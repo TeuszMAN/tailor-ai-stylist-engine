@@ -43,8 +43,9 @@ Quadro de coordenação entre agentes (**Claude Code**, **Antigravity**, **OpenC
 
 ## Fase 4 — Validação cruzada
 
-- [ ] Storefront (`storefront-web`) consome `/api/v1/fit-finder` e `/api/v1/stylist/recommend` com catálogo via payload — owner: Claude Code
-- [ ] Local Fallback Adapter (TypeScript) reproduz os vetores de paridade — owner: Claude Code
+- [x] Storefront (`storefront-web`) consome `/api/v1/fit-finder` e `/api/v1/stylist/recommend` com catálogo via payload — owner: Claude Code
+- [x] Local Fallback Adapter (TypeScript) reproduz os vetores de paridade — owner: Claude Code
+- [x] Teste de contrato ao vivo: resposta da API (rule-based) = adapter local para o catálogo da loja — owner: Claude Code
 
 ## Backlog (próximos)
 
@@ -59,3 +60,4 @@ Quadro de coordenação entre agentes (**Claude Code**, **Antigravity**, **OpenC
 | Data | Agente | Resumo |
 |---|---|---|
 | 2026-11-05 | Claude Code | Bootstrap completo: contratos, tools, grafo LangGraph, API, Docker, testes, SDD e vetores de paridade. |
+| 2026-11-05 | Claude Code | Validação cruzada com o storefront: 51 testes de paridade TS e 7 testes de contrato ao vivo verdes. |
