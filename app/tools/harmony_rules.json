@@ -1,0 +1,102 @@
+{
+  "version": "classic-etiquette-v1",
+  "base_score": 60,
+  "formality_bonus": 8,
+  "points": {
+    "excellent": 8,
+    "good": 4,
+    "acceptable": 0,
+    "warning": -10,
+    "forbidden": -30
+  },
+  "context_penalty": {
+    "warning": -10,
+    "violation": -30
+  },
+  "pairs": {
+    "suit_shoes": {
+      "navy": { "black": "excellent", "brown": "excellent", "cognac": "good" },
+      "charcoal": { "black": "excellent", "brown": "acceptable", "cognac": "warning" },
+      "grey": { "black": "excellent", "brown": "excellent", "cognac": "good" },
+      "sand": { "black": "forbidden", "brown": "excellent", "cognac": "excellent" },
+      "black": { "black": "excellent", "brown": "forbidden", "cognac": "forbidden" }
+    },
+    "suit_shirt": {
+      "navy": { "white": "excellent", "light_blue": "excellent", "blue_stripe": "good", "pink": "excellent" },
+      "charcoal": { "white": "excellent", "light_blue": "excellent", "blue_stripe": "good", "pink": "good" },
+      "grey": { "white": "excellent", "light_blue": "excellent", "blue_stripe": "good", "pink": "excellent" },
+      "sand": { "white": "excellent", "light_blue": "excellent", "blue_stripe": "acceptable", "pink": "good" },
+      "black": { "white": "excellent", "light_blue": "warning", "blue_stripe": "warning", "pink": "warning" }
+    },
+    "suit_tie": {
+      "navy": { "burgundy": "excellent", "navy": "warning", "silver": "good", "emerald": "excellent", "lavender": "good" },
+      "charcoal": { "burgundy": "excellent", "navy": "good", "silver": "excellent", "emerald": "good", "lavender": "good" },
+      "grey": { "burgundy": "excellent", "navy": "excellent", "silver": "good", "emerald": "good", "lavender": "excellent" },
+      "sand": { "burgundy": "good", "navy": "excellent", "silver": "good", "emerald": "excellent", "lavender": "excellent" },
+      "black": { "burgundy": "good", "navy": "good", "silver": "excellent", "emerald": "acceptable", "lavender": "warning" }
+    },
+    "shirt_tie": {
+      "white": { "burgundy": "excellent", "navy": "excellent", "silver": "excellent", "emerald": "excellent", "lavender": "good" },
+      "light_blue": { "burgundy": "excellent", "navy": "excellent", "silver": "good", "emerald": "good", "lavender": "acceptable" },
+      "blue_stripe": { "burgundy": "excellent", "navy": "good", "silver": "acceptable", "emerald": "good", "lavender": "warning" },
+      "pink": { "burgundy": "good", "navy": "excellent", "silver": "good", "emerald": "acceptable", "lavender": "warning" }
+    }
+  },
+  "templates": {
+    "suit_shoes": {
+      "excellent": "Sapato {b} é a escolha clássica para o terno {a}.",
+      "good": "Sapato {b} funciona bem com o terno {a}.",
+      "warning": "Sapato {b} com terno {a} é uma combinação arriscada.",
+      "forbidden": "Sapato {b} não combina com terno {a} pela etiqueta clássica."
+    },
+    "suit_shirt": {
+      "excellent": "Camisa {b} cria contraste limpo e elegante com o terno {a}.",
+      "good": "Camisa {b} acompanha bem o terno {a}.",
+      "warning": "Camisa {b} com terno {a} reduz a formalidade do conjunto.",
+      "forbidden": "Camisa {b} não deve ser usada com terno {a}."
+    },
+    "suit_tie": {
+      "excellent": "Gravata {b} dá profundidade e personalidade ao terno {a}.",
+      "good": "Gravata {b} harmoniza com o terno {a}.",
+      "warning": "Gravata {b} com terno {a} tem pouco contraste.",
+      "forbidden": "Gravata {b} conflita com o terno {a}."
+    },
+    "shirt_tie": {
+      "excellent": "Gravata {b} se destaca com nitidez sobre a camisa {a}.",
+      "good": "Gravata {b} e camisa {a} formam um par equilibrado.",
+      "warning": "Gravata {b} sobre camisa {a} deixa a paleta sem contraste.",
+      "forbidden": "Gravata {b} não combina com camisa {a}."
+    }
+  },
+  "notes": {
+    "suit_shoes:navy:brown": "Azul-marinho com sapato café é a assinatura da alfaiataria italiana.",
+    "suit_shoes:sand:black": "Terno bege-areia com sapato preto quebra a regra clássica: tons claros pedem calçados em tons de marrom.",
+    "suit_shoes:black:brown": "Terno preto exige sapato preto: marrom com preto é um deslize clássico.",
+    "suit_shoes:black:cognac": "Terno preto exige sapato preto: conhaque com preto é um deslize clássico.",
+    "suit_shoes:charcoal:cognac": "Conhaque com cinza-chumbo perde sobriedade; prefira preto ou café escuro.",
+    "suit_tie:navy:navy": "Gravata azul-marinho sobre terno azul-marinho fica tom sobre tom, com pouco contraste.",
+    "suit_shirt:black:light_blue": "Camisa azul-celeste com terno preto tira a solenidade do preto; a branca é a parceira natural.",
+    "shirt_tie:pink:lavender": "Rosa com lavanda cria uma paleta pastel sem ponto focal."
+  },
+  "context_rules": {
+    "black_tie_suit": { "severity": "violation", "text": "Black tie pede terno preto de cerimônia." },
+    "black_tie_shirt": { "severity": "violation", "text": "Black tie exige camisa branca." },
+    "black_tie_shoes": { "severity": "violation", "text": "Black tie exige sapato oxford preto." },
+    "formality_below_one": { "severity": "warning", "text": "O conjunto fica um degrau abaixo do dress code {target}." },
+    "formality_below_many": { "severity": "violation", "text": "O conjunto é informal demais para o dress code {target}." },
+    "formality_above": { "severity": "warning", "text": "O conjunto pode soar formal demais para o dress code {target}." },
+    "night_light_suit": { "severity": "warning", "text": "Bege-areia é um tom diurno; à noite prefira tons escuros." },
+    "night_brown_shoes": { "severity": "warning", "text": "Depois das 18h, a etiqueta clássica pede sapatos pretos." },
+    "day_black_suit": { "severity": "warning", "text": "Terno preto é reservado a eventos noturnos; de dia prefira azul, cinza ou bege." },
+    "pattern_clash_shirt_tie": { "severity": "warning", "text": "Camisa e gravata estampadas competem entre si; equilibre com uma peça lisa." },
+    "pattern_clash_suit_shirt": { "severity": "warning", "text": "Terno xadrez pede camisa lisa para não sobrecarregar o visual." }
+  },
+  "formality_match_text": "Nível de formalidade alinhado ao dress code {target}.",
+  "formality_coherent_text": "Conjunto coerente no nível {target}.",
+  "name_prefix": {
+    "smart_casual": "Esporte Fino",
+    "business": "Executivo",
+    "formal": "Cerimônia",
+    "black_tie": "Gala"
+  }
+}
