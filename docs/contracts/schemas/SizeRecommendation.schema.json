@@ -1,0 +1,133 @@
+{
+  "$defs": {
+    "Fit": {
+      "enum": [
+        "slim",
+        "regular"
+      ],
+      "title": "Fit",
+      "type": "string"
+    },
+    "JacketLength": {
+      "enum": [
+        "curto",
+        "regular",
+        "longo"
+      ],
+      "title": "JacketLength",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "suit_size": {
+      "maximum": 60,
+      "minimum": 46,
+      "title": "Suit Size",
+      "type": "integer"
+    },
+    "pants_size": {
+      "maximum": 54,
+      "minimum": 38,
+      "title": "Pants Size",
+      "type": "integer"
+    },
+    "shirt_size": {
+      "maximum": 6,
+      "minimum": 1,
+      "title": "Shirt Size",
+      "type": "integer"
+    },
+    "shirt_letter": {
+      "enum": [
+        "PP",
+        "P",
+        "M",
+        "G",
+        "GG",
+        "XG"
+      ],
+      "title": "Shirt Letter",
+      "type": "string"
+    },
+    "collar_cm": {
+      "title": "Collar Cm",
+      "type": "string"
+    },
+    "fit": {
+      "$ref": "#/$defs/Fit"
+    },
+    "drop": {
+      "description": "Jacket size minus pants size after clamping.",
+      "title": "Drop",
+      "type": "integer"
+    },
+    "jacket_length": {
+      "$ref": "#/$defs/JacketLength"
+    },
+    "shoe_size": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Shoe Size"
+    },
+    "estimated_chest_cm": {
+      "title": "Estimated Chest Cm",
+      "type": "integer"
+    },
+    "estimated_waist_cm": {
+      "title": "Estimated Waist Cm",
+      "type": "integer"
+    },
+    "bmi": {
+      "title": "Bmi",
+      "type": "number"
+    },
+    "effective_weight_kg": {
+      "title": "Effective Weight Kg",
+      "type": "number"
+    },
+    "summary": {
+      "description": "Passport line, e.g. 'Terno 52 Regular | Calça 46 | Camisa 4 (G)'.",
+      "title": "Summary",
+      "type": "string"
+    },
+    "rationale": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Rationale",
+      "type": "array"
+    },
+    "algorithm_version": {
+      "const": "drop6-v1",
+      "default": "drop6-v1",
+      "title": "Algorithm Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "suit_size",
+    "pants_size",
+    "shirt_size",
+    "shirt_letter",
+    "collar_cm",
+    "fit",
+    "drop",
+    "jacket_length",
+    "estimated_chest_cm",
+    "estimated_waist_cm",
+    "bmi",
+    "effective_weight_kg",
+    "summary",
+    "rationale"
+  ],
+  "title": "SizeRecommendation",
+  "type": "object"
+}

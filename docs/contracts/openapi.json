@@ -1,0 +1,1881 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Tailor AI Engine",
+    "description": "\nWhite-label **agentic menswear stylist** for classic tailoring.\n\n* `POST /api/v1/fit-finder` — deterministic anthropometric sizing (Drop 6 algorithm).\n* `POST /api/v1/stylist/recommend` — LangGraph agent (LLM tool calling **or** deterministic\n  rule-based fallback when no API key is configured) that returns complete, validated looks.\n* Catalog can be the bundled demo, a JSON file, SQLite, or sent in the request payload.\n",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "ops"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid payload"
+          }
+        }
+      }
+    },
+    "/api/v1/fit-finder": {
+      "post": {
+        "tags": [
+          "sizing"
+        ],
+        "summary": "Fit Finder",
+        "description": "Anthropometric sizing: height x weight x biotype -> suit 46-60, pants 38-54, shirt 1-6, cut.",
+        "operationId": "fit_finder_api_v1_fit_finder_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserMeasurements"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SizeRecommendation"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid payload"
+          }
+        }
+      }
+    },
+    "/api/v1/stylist/recommend": {
+      "post": {
+        "tags": [
+          "stylist"
+        ],
+        "summary": "Stylist Recommend",
+        "description": "Run the LangGraph stylist and return consultative text + validated complete looks.",
+        "operationId": "stylist_recommend_api_v1_stylist_recommend_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StylistRecommendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StylistRecommendResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid payload"
+          }
+        }
+      }
+    },
+    "/api/v1/catalog": {
+      "get": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "List Catalog",
+        "description": "List the configured catalog (demo by default) with optional filters.",
+        "operationId": "list_catalog_api_v1_catalog_get",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Category"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Category"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 8
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Size"
+            }
+          },
+          {
+            "name": "formality",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Formality"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Formality"
+            }
+          },
+          {
+            "name": "color",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 80
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Color"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "in_stock_only",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "In Stock Only"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid payload"
+          }
+        }
+      }
+    },
+    "/api/v1/inventory/search": {
+      "post": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "Inventory Search",
+        "description": "Semantic search over the configured catalog or over the catalog sent in the payload.",
+        "operationId": "inventory_search_api_v1_inventory_search_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventorySearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventorySearchResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid payload"
+          }
+        }
+      }
+    },
+    "/api/v1/looks/compose": {
+      "post": {
+        "tags": [
+          "stylist"
+        ],
+        "summary": "Compose Look",
+        "description": "Mix & Match: validate any suit + shirt + tie + shoes combination against classic etiquette.",
+        "operationId": "compose_look_api_v1_looks_compose_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComposeLookRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OutfitRecommendation"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BellyType": {
+        "type": "string",
+        "enum": [
+          "atletico",
+          "medio",
+          "largo"
+        ],
+        "title": "BellyType"
+      },
+      "CatalogResponse": {
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/CatalogSource"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Product-Output"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source",
+          "total",
+          "items"
+        ],
+        "title": "CatalogResponse"
+      },
+      "CatalogSource": {
+        "type": "string",
+        "enum": [
+          "demo",
+          "file",
+          "sqlite",
+          "payload"
+        ],
+        "title": "CatalogSource"
+      },
+      "Category": {
+        "type": "string",
+        "enum": [
+          "suit",
+          "shirt",
+          "pants",
+          "tie",
+          "shoes"
+        ],
+        "title": "Category"
+      },
+      "ChatTurn": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "assistant"
+            ],
+            "title": "Role"
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 4000,
+            "title": "Content"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "ChatTurn"
+      },
+      "ChestType": {
+        "type": "string",
+        "enum": [
+          "atletico",
+          "medio",
+          "largo"
+        ],
+        "title": "ChestType"
+      },
+      "ColorFamily": {
+        "type": "string",
+        "enum": [
+          "navy",
+          "charcoal",
+          "grey",
+          "sand",
+          "black",
+          "white",
+          "light_blue",
+          "blue_stripe",
+          "pink",
+          "burgundy",
+          "silver",
+          "emerald",
+          "lavender",
+          "brown",
+          "cognac",
+          "khaki"
+        ],
+        "title": "ColorFamily"
+      },
+      "ColorIntent": {
+        "properties": {
+          "prefer": {
+            "items": {
+              "$ref": "#/components/schemas/ColorFamily"
+            },
+            "type": "array",
+            "title": "Prefer"
+          },
+          "avoid": {
+            "items": {
+              "$ref": "#/components/schemas/ColorFamily"
+            },
+            "type": "array",
+            "title": "Avoid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ColorIntent",
+        "description": "Colors the customer asked for (prefer) or rejected (avoid) for one category."
+      },
+      "ComposeLookRequest": {
+        "properties": {
+          "suit_id": {
+            "type": "string",
+            "title": "Suit Id"
+          },
+          "shirt_id": {
+            "type": "string",
+            "title": "Shirt Id"
+          },
+          "tie_id": {
+            "type": "string",
+            "title": "Tie Id"
+          },
+          "shoe_id": {
+            "type": "string",
+            "title": "Shoe Id"
+          },
+          "target_formality": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Formality"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "time_of_day": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "dia",
+                  "tarde",
+                  "noite"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Time Of Day"
+          },
+          "measurements": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/UserMeasurements"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "When present, each item gets the customer's size and stock is checked."
+          },
+          "catalog": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Product-Input"
+                },
+                "type": "array",
+                "maxItems": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Catalog"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "suit_id",
+          "shirt_id",
+          "tie_id",
+          "shoe_id"
+        ],
+        "title": "ComposeLookRequest"
+      },
+      "EngineInfo": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "llm",
+              "rule_based"
+            ],
+            "title": "Mode"
+          },
+          "provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "fallback_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fallback Reason"
+          },
+          "catalog_source": {
+            "$ref": "#/components/schemas/CatalogSource"
+          },
+          "graph_path": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Graph Path"
+          },
+          "tool_calls": {
+            "items": {
+              "$ref": "#/components/schemas/ToolCallTrace"
+            },
+            "type": "array",
+            "title": "Tool Calls"
+          },
+          "latency_ms": {
+            "type": "number",
+            "title": "Latency Ms"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode",
+          "catalog_source",
+          "graph_path",
+          "tool_calls",
+          "latency_ms"
+        ],
+        "title": "EngineInfo"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "ErrorResponse"
+      },
+      "ExtractedMeasurements": {
+        "properties": {
+          "height_cm": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Height Cm"
+          },
+          "weight_kg": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weight Kg"
+          },
+          "chest_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChestType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "belly_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BellyType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "shoe_size": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shoe Size"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ExtractedMeasurements"
+      },
+      "Fit": {
+        "type": "string",
+        "enum": [
+          "slim",
+          "regular"
+        ],
+        "title": "Fit"
+      },
+      "Formality": {
+        "type": "string",
+        "enum": [
+          "smart_casual",
+          "business",
+          "formal",
+          "black_tie"
+        ],
+        "title": "Formality",
+        "description": "Dress-code ladder, ordered from least to most formal."
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status"
+          },
+          "service": {
+            "type": "string",
+            "title": "Service"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "llm_mode": {
+            "type": "string",
+            "enum": [
+              "llm",
+              "rule_based"
+            ],
+            "title": "Llm Mode"
+          },
+          "llm_provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Provider"
+          },
+          "llm_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Model"
+          },
+          "catalog_source": {
+            "$ref": "#/components/schemas/CatalogSource"
+          },
+          "catalog_size": {
+            "type": "integer",
+            "title": "Catalog Size"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "service",
+          "version",
+          "llm_mode",
+          "llm_provider",
+          "llm_model",
+          "catalog_source",
+          "catalog_size"
+        ],
+        "title": "HealthResponse"
+      },
+      "InventorySearchRequest": {
+        "properties": {
+          "category": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Category"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "size": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 8
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Size"
+          },
+          "formality": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Formality"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "color_query": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Color Query"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Query",
+            "description": "Free text, e.g. 'gravata vinho para casamento'."
+          },
+          "in_stock_only": {
+            "type": "boolean",
+            "title": "In Stock Only",
+            "default": true
+          },
+          "limit": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Limit",
+            "default": 20
+          },
+          "catalog": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Product-Input"
+                },
+                "type": "array",
+                "maxItems": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Catalog"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "InventorySearchRequest"
+      },
+      "InventorySearchResult": {
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/CatalogSource",
+            "default": "demo"
+          },
+          "total_matches": {
+            "type": "integer",
+            "title": "Total Matches"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Product-Output"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "resolved_colors": {
+            "items": {
+              "$ref": "#/components/schemas/ColorFamily"
+            },
+            "type": "array",
+            "title": "Resolved Colors"
+          },
+          "inferred_category": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Category"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "applied_filters": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Applied Filters"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "total_matches",
+          "items",
+          "applied_filters"
+        ],
+        "title": "InventorySearchResult"
+      },
+      "JacketLength": {
+        "type": "string",
+        "enum": [
+          "curto",
+          "regular",
+          "longo"
+        ],
+        "title": "JacketLength"
+      },
+      "JsonValue": {},
+      "LookItem": {
+        "properties": {
+          "role": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "product": {
+            "$ref": "#/components/schemas/Product-Output"
+          },
+          "selected_size": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Size",
+            "description": "Customer size for this piece, when known."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role",
+          "product"
+        ],
+        "title": "LookItem"
+      },
+      "Occasion": {
+        "type": "string",
+        "enum": [
+          "casamento",
+          "trabalho",
+          "entrevista",
+          "formatura",
+          "gala",
+          "evento_diurno",
+          "versatil"
+        ],
+        "title": "Occasion"
+      },
+      "OutfitRecommendation": {
+        "properties": {
+          "look_id": {
+            "type": "string",
+            "title": "Look Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/LookItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total_price_cents": {
+            "type": "integer",
+            "title": "Total Price Cents"
+          },
+          "harmony_score": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Harmony Score"
+          },
+          "is_valid": {
+            "type": "boolean",
+            "title": "Is Valid"
+          },
+          "formality": {
+            "$ref": "#/components/schemas/Formality"
+          },
+          "occasions": {
+            "items": {
+              "$ref": "#/components/schemas/Occasion"
+            },
+            "type": "array",
+            "title": "Occasions"
+          },
+          "style_rationale": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Style Rationale"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "violations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Violations"
+          },
+          "ruleset_version": {
+            "type": "string",
+            "title": "Ruleset Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "look_id",
+          "name",
+          "items",
+          "total_price_cents",
+          "harmony_score",
+          "is_valid",
+          "formality",
+          "occasions",
+          "style_rationale",
+          "ruleset_version"
+        ],
+        "title": "OutfitRecommendation"
+      },
+      "Pattern": {
+        "type": "string",
+        "enum": [
+          "solid",
+          "striped",
+          "checked",
+          "textured",
+          "paisley"
+        ],
+        "title": "Pattern"
+      },
+      "Product-Input": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_.:-]+$",
+            "title": "Id"
+          },
+          "sku": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 3,
+            "pattern": "^[A-Z0-9][A-Z0-9-]+$",
+            "title": "Sku"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 600,
+            "title": "Description",
+            "default": ""
+          },
+          "price_cents": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Price Cents",
+            "description": "Price in minor units (integer money)."
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "title": "Currency",
+            "default": "BRL"
+          },
+          "color": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Color",
+            "description": "Human color name, e.g. 'Azul Marinho'."
+          },
+          "color_family": {
+            "$ref": "#/components/schemas/ColorFamily"
+          },
+          "pattern": {
+            "$ref": "#/components/schemas/Pattern",
+            "default": "solid"
+          },
+          "fabric": {
+            "type": "string",
+            "maxLength": 80,
+            "title": "Fabric",
+            "default": ""
+          },
+          "style": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Style",
+            "description": "e.g. 'oxford', 'brogue', 'loafer'."
+          },
+          "fit_options": {
+            "items": {
+              "$ref": "#/components/schemas/Fit"
+            },
+            "type": "array",
+            "title": "Fit Options"
+          },
+          "formality_tags": {
+            "items": {
+              "$ref": "#/components/schemas/Formality"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Formality Tags"
+          },
+          "occasion_tags": {
+            "items": {
+              "$ref": "#/components/schemas/Occasion"
+            },
+            "type": "array",
+            "title": "Occasion Tags"
+          },
+          "seasons": {
+            "items": {
+              "$ref": "#/components/schemas/Season"
+            },
+            "type": "array",
+            "title": "Seasons"
+          },
+          "sizes": {
+            "items": {
+              "$ref": "#/components/schemas/SizeStock"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Sizes"
+          },
+          "image_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Url"
+          },
+          "highlight": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Highlight"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "sku",
+          "name",
+          "category",
+          "price_cents",
+          "color",
+          "color_family",
+          "formality_tags",
+          "sizes"
+        ],
+        "title": "Product",
+        "description": "A catalog item. Tolerant to extra fields so white-label clients can send richer records."
+      },
+      "Product-Output": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_.:-]+$",
+            "title": "Id"
+          },
+          "sku": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 3,
+            "pattern": "^[A-Z0-9][A-Z0-9-]+$",
+            "title": "Sku"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 600,
+            "title": "Description",
+            "default": ""
+          },
+          "price_cents": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Price Cents",
+            "description": "Price in minor units (integer money)."
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "title": "Currency",
+            "default": "BRL"
+          },
+          "color": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Color",
+            "description": "Human color name, e.g. 'Azul Marinho'."
+          },
+          "color_family": {
+            "$ref": "#/components/schemas/ColorFamily"
+          },
+          "pattern": {
+            "$ref": "#/components/schemas/Pattern",
+            "default": "solid"
+          },
+          "fabric": {
+            "type": "string",
+            "maxLength": 80,
+            "title": "Fabric",
+            "default": ""
+          },
+          "style": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Style",
+            "description": "e.g. 'oxford', 'brogue', 'loafer'."
+          },
+          "fit_options": {
+            "items": {
+              "$ref": "#/components/schemas/Fit"
+            },
+            "type": "array",
+            "title": "Fit Options"
+          },
+          "formality_tags": {
+            "items": {
+              "$ref": "#/components/schemas/Formality"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Formality Tags"
+          },
+          "occasion_tags": {
+            "items": {
+              "$ref": "#/components/schemas/Occasion"
+            },
+            "type": "array",
+            "title": "Occasion Tags"
+          },
+          "seasons": {
+            "items": {
+              "$ref": "#/components/schemas/Season"
+            },
+            "type": "array",
+            "title": "Seasons"
+          },
+          "sizes": {
+            "items": {
+              "$ref": "#/components/schemas/SizeStock"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Sizes"
+          },
+          "image_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Url"
+          },
+          "highlight": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Highlight"
+          },
+          "available_sizes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Available Sizes",
+            "readOnly": true
+          },
+          "in_stock": {
+            "type": "boolean",
+            "title": "In Stock",
+            "readOnly": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "sku",
+          "name",
+          "category",
+          "price_cents",
+          "color",
+          "color_family",
+          "formality_tags",
+          "sizes",
+          "available_sizes",
+          "in_stock"
+        ],
+        "title": "Product",
+        "description": "A catalog item. Tolerant to extra fields so white-label clients can send richer records."
+      },
+      "Season": {
+        "type": "string",
+        "enum": [
+          "all_year",
+          "summer",
+          "winter"
+        ],
+        "title": "Season"
+      },
+      "SizeRecommendation": {
+        "properties": {
+          "suit_size": {
+            "type": "integer",
+            "maximum": 60.0,
+            "minimum": 46.0,
+            "title": "Suit Size"
+          },
+          "pants_size": {
+            "type": "integer",
+            "maximum": 54.0,
+            "minimum": 38.0,
+            "title": "Pants Size"
+          },
+          "shirt_size": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 1.0,
+            "title": "Shirt Size"
+          },
+          "shirt_letter": {
+            "type": "string",
+            "enum": [
+              "PP",
+              "P",
+              "M",
+              "G",
+              "GG",
+              "XG"
+            ],
+            "title": "Shirt Letter"
+          },
+          "collar_cm": {
+            "type": "string",
+            "title": "Collar Cm"
+          },
+          "fit": {
+            "$ref": "#/components/schemas/Fit"
+          },
+          "drop": {
+            "type": "integer",
+            "title": "Drop",
+            "description": "Jacket size minus pants size after clamping."
+          },
+          "jacket_length": {
+            "$ref": "#/components/schemas/JacketLength"
+          },
+          "shoe_size": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shoe Size"
+          },
+          "estimated_chest_cm": {
+            "type": "integer",
+            "title": "Estimated Chest Cm"
+          },
+          "estimated_waist_cm": {
+            "type": "integer",
+            "title": "Estimated Waist Cm"
+          },
+          "bmi": {
+            "type": "number",
+            "title": "Bmi"
+          },
+          "effective_weight_kg": {
+            "type": "number",
+            "title": "Effective Weight Kg"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary",
+            "description": "Passport line, e.g. 'Terno 52 Regular | Calça 46 | Camisa 4 (G)'."
+          },
+          "rationale": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Rationale"
+          },
+          "algorithm_version": {
+            "type": "string",
+            "const": "drop6-v1",
+            "title": "Algorithm Version",
+            "default": "drop6-v1"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "suit_size",
+          "pants_size",
+          "shirt_size",
+          "shirt_letter",
+          "collar_cm",
+          "fit",
+          "drop",
+          "jacket_length",
+          "estimated_chest_cm",
+          "estimated_waist_cm",
+          "bmi",
+          "effective_weight_kg",
+          "summary",
+          "rationale"
+        ],
+        "title": "SizeRecommendation"
+      },
+      "SizeStock": {
+        "properties": {
+          "size": {
+            "type": "string",
+            "maxLength": 8,
+            "minLength": 1,
+            "title": "Size",
+            "description": "Brazilian size label: suits 46-60, pants 38-54, shirts 1-6, ties U, shoes 37-46."
+          },
+          "stock": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Stock",
+            "description": "Units available for try-on."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "size",
+          "stock"
+        ],
+        "title": "SizeStock"
+      },
+      "StylingContext": {
+        "properties": {
+          "occasion": {
+            "$ref": "#/components/schemas/Occasion"
+          },
+          "occasion_label": {
+            "type": "string",
+            "title": "Occasion Label"
+          },
+          "time_of_day": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "dia",
+                  "tarde",
+                  "noite"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Time Of Day"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "noivo",
+                  "padrinho",
+                  "convidado",
+                  "formando",
+                  "candidato",
+                  "anfitriao"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role"
+          },
+          "target_formality": {
+            "$ref": "#/components/schemas/Formality"
+          },
+          "season": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Season"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "suit_colors": {
+            "$ref": "#/components/schemas/ColorIntent",
+            "description": "prefer = ranked palette for suits."
+          },
+          "shirt_colors": {
+            "$ref": "#/components/schemas/ColorIntent"
+          },
+          "tie_colors": {
+            "$ref": "#/components/schemas/ColorIntent"
+          },
+          "shoe_colors": {
+            "$ref": "#/components/schemas/ColorIntent"
+          },
+          "budget_max_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Budget Max Cents"
+          },
+          "wants_versatility": {
+            "type": "boolean",
+            "title": "Wants Versatility",
+            "default": false
+          },
+          "measurements_from_text": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtractedMeasurements"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "detected_keywords": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Detected Keywords"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "occasion",
+          "occasion_label",
+          "target_formality"
+        ],
+        "title": "StylingContext"
+      },
+      "StylistPreferences": {
+        "properties": {
+          "budget_max_cents": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Budget Max Cents"
+          },
+          "preferred_colors": {
+            "items": {
+              "$ref": "#/components/schemas/ColorFamily"
+            },
+            "type": "array",
+            "title": "Preferred Colors",
+            "description": "Suit color families to favor."
+          },
+          "avoid_colors": {
+            "items": {
+              "$ref": "#/components/schemas/ColorFamily"
+            },
+            "type": "array",
+            "title": "Avoid Colors",
+            "description": "Suit color families to avoid."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "StylistPreferences"
+      },
+      "StylistRecommendRequest": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Message"
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64,
+                "pattern": "^[A-Za-z0-9_-]+$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session Id"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/ChatTurn"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "History"
+          },
+          "measurements": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/UserMeasurements"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "preferences": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StylistPreferences"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "catalog": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Product-Input"
+                },
+                "type": "array",
+                "maxItems": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Catalog",
+            "description": "Optional white-label catalog. When omitted the engine uses its configured repository."
+          },
+          "max_looks": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Max Looks",
+            "default": 3
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "StylistRecommendRequest"
+      },
+      "StylistRecommendResponse": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "reply": {
+            "type": "string",
+            "title": "Reply"
+          },
+          "recommended_looks": {
+            "items": {
+              "$ref": "#/components/schemas/OutfitRecommendation"
+            },
+            "type": "array",
+            "title": "Recommended Looks"
+          },
+          "suggested_products": {
+            "items": {
+              "$ref": "#/components/schemas/Product-Output"
+            },
+            "type": "array",
+            "title": "Suggested Products"
+          },
+          "size_profile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SizeRecommendation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "context": {
+            "$ref": "#/components/schemas/StylingContext"
+          },
+          "quick_replies": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Quick Replies"
+          },
+          "engine": {
+            "$ref": "#/components/schemas/EngineInfo"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "session_id",
+          "reply",
+          "recommended_looks",
+          "suggested_products",
+          "context",
+          "quick_replies",
+          "engine"
+        ],
+        "title": "StylistRecommendResponse"
+      },
+      "ToolCallTrace": {
+        "properties": {
+          "tool": {
+            "type": "string",
+            "title": "Tool"
+          },
+          "arguments": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "type": "object",
+            "title": "Arguments"
+          },
+          "duration_ms": {
+            "type": "number",
+            "title": "Duration Ms"
+          },
+          "ok": {
+            "type": "boolean",
+            "title": "Ok"
+          },
+          "result_summary": {
+            "type": "string",
+            "title": "Result Summary"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tool",
+          "arguments",
+          "duration_ms",
+          "ok",
+          "result_summary"
+        ],
+        "title": "ToolCallTrace"
+      },
+      "UserMeasurements": {
+        "properties": {
+          "height_cm": {
+            "type": "integer",
+            "maximum": 210.0,
+            "minimum": 150.0,
+            "title": "Height Cm",
+            "description": "Height in centimeters."
+          },
+          "weight_kg": {
+            "type": "integer",
+            "maximum": 160.0,
+            "minimum": 45.0,
+            "title": "Weight Kg",
+            "description": "Weight in kilograms."
+          },
+          "chest_type": {
+            "$ref": "#/components/schemas/ChestType",
+            "default": "medio"
+          },
+          "belly_type": {
+            "$ref": "#/components/schemas/BellyType",
+            "default": "medio"
+          },
+          "shoe_size": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 46.0,
+                "minimum": 37.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shoe Size",
+            "description": "Optional Brazilian shoe size."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "height_cm",
+          "weight_kg"
+        ],
+        "title": "UserMeasurements"
+      }
+    }
+  }
+}

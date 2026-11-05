@@ -1,0 +1,476 @@
+{
+  "$defs": {
+    "BellyType": {
+      "enum": [
+        "atletico",
+        "medio",
+        "largo"
+      ],
+      "title": "BellyType",
+      "type": "string"
+    },
+    "Category": {
+      "enum": [
+        "suit",
+        "shirt",
+        "pants",
+        "tie",
+        "shoes"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "ChatTurn": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "content": {
+          "maxLength": 4000,
+          "title": "Content",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "title": "ChatTurn",
+      "type": "object"
+    },
+    "ChestType": {
+      "enum": [
+        "atletico",
+        "medio",
+        "largo"
+      ],
+      "title": "ChestType",
+      "type": "string"
+    },
+    "ColorFamily": {
+      "enum": [
+        "navy",
+        "charcoal",
+        "grey",
+        "sand",
+        "black",
+        "white",
+        "light_blue",
+        "blue_stripe",
+        "pink",
+        "burgundy",
+        "silver",
+        "emerald",
+        "lavender",
+        "brown",
+        "cognac",
+        "khaki"
+      ],
+      "title": "ColorFamily",
+      "type": "string"
+    },
+    "Fit": {
+      "enum": [
+        "slim",
+        "regular"
+      ],
+      "title": "Fit",
+      "type": "string"
+    },
+    "Formality": {
+      "description": "Dress-code ladder, ordered from least to most formal.",
+      "enum": [
+        "smart_casual",
+        "business",
+        "formal",
+        "black_tie"
+      ],
+      "title": "Formality",
+      "type": "string"
+    },
+    "Occasion": {
+      "enum": [
+        "casamento",
+        "trabalho",
+        "entrevista",
+        "formatura",
+        "gala",
+        "evento_diurno",
+        "versatil"
+      ],
+      "title": "Occasion",
+      "type": "string"
+    },
+    "Pattern": {
+      "enum": [
+        "solid",
+        "striped",
+        "checked",
+        "textured",
+        "paisley"
+      ],
+      "title": "Pattern",
+      "type": "string"
+    },
+    "Product": {
+      "description": "A catalog item. Tolerant to extra fields so white-label clients can send richer records.",
+      "properties": {
+        "id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_.:-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "sku": {
+          "maxLength": 32,
+          "minLength": 3,
+          "pattern": "^[A-Z0-9][A-Z0-9-]+$",
+          "title": "Sku",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/Category"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 600,
+          "title": "Description",
+          "type": "string"
+        },
+        "price_cents": {
+          "description": "Price in minor units (integer money).",
+          "exclusiveMinimum": 0,
+          "title": "Price Cents",
+          "type": "integer"
+        },
+        "currency": {
+          "default": "BRL",
+          "pattern": "^[A-Z]{3}$",
+          "title": "Currency",
+          "type": "string"
+        },
+        "color": {
+          "description": "Human color name, e.g. 'Azul Marinho'.",
+          "maxLength": 40,
+          "minLength": 1,
+          "title": "Color",
+          "type": "string"
+        },
+        "color_family": {
+          "$ref": "#/$defs/ColorFamily"
+        },
+        "pattern": {
+          "$ref": "#/$defs/Pattern",
+          "default": "solid"
+        },
+        "fabric": {
+          "default": "",
+          "maxLength": 80,
+          "title": "Fabric",
+          "type": "string"
+        },
+        "style": {
+          "anyOf": [
+            {
+              "maxLength": 40,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "e.g. 'oxford', 'brogue', 'loafer'.",
+          "title": "Style"
+        },
+        "fit_options": {
+          "items": {
+            "$ref": "#/$defs/Fit"
+          },
+          "title": "Fit Options",
+          "type": "array"
+        },
+        "formality_tags": {
+          "items": {
+            "$ref": "#/$defs/Formality"
+          },
+          "minItems": 1,
+          "title": "Formality Tags",
+          "type": "array"
+        },
+        "occasion_tags": {
+          "items": {
+            "$ref": "#/$defs/Occasion"
+          },
+          "title": "Occasion Tags",
+          "type": "array"
+        },
+        "seasons": {
+          "items": {
+            "$ref": "#/$defs/Season"
+          },
+          "title": "Seasons",
+          "type": "array"
+        },
+        "sizes": {
+          "items": {
+            "$ref": "#/$defs/SizeStock"
+          },
+          "minItems": 1,
+          "title": "Sizes",
+          "type": "array"
+        },
+        "image_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Image Url"
+        },
+        "highlight": {
+          "anyOf": [
+            {
+              "maxLength": 40,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Highlight"
+        }
+      },
+      "required": [
+        "id",
+        "sku",
+        "name",
+        "category",
+        "price_cents",
+        "color",
+        "color_family",
+        "formality_tags",
+        "sizes"
+      ],
+      "title": "Product",
+      "type": "object"
+    },
+    "Season": {
+      "enum": [
+        "all_year",
+        "summer",
+        "winter"
+      ],
+      "title": "Season",
+      "type": "string"
+    },
+    "SizeStock": {
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "description": "Brazilian size label: suits 46-60, pants 38-54, shirts 1-6, ties U, shoes 37-46.",
+          "maxLength": 8,
+          "minLength": 1,
+          "title": "Size",
+          "type": "string"
+        },
+        "stock": {
+          "description": "Units available for try-on.",
+          "minimum": 0,
+          "title": "Stock",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "size",
+        "stock"
+      ],
+      "title": "SizeStock",
+      "type": "object"
+    },
+    "StylistPreferences": {
+      "additionalProperties": false,
+      "properties": {
+        "budget_max_cents": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Budget Max Cents"
+        },
+        "preferred_colors": {
+          "description": "Suit color families to favor.",
+          "items": {
+            "$ref": "#/$defs/ColorFamily"
+          },
+          "title": "Preferred Colors",
+          "type": "array"
+        },
+        "avoid_colors": {
+          "description": "Suit color families to avoid.",
+          "items": {
+            "$ref": "#/$defs/ColorFamily"
+          },
+          "title": "Avoid Colors",
+          "type": "array"
+        }
+      },
+      "title": "StylistPreferences",
+      "type": "object"
+    },
+    "UserMeasurements": {
+      "additionalProperties": false,
+      "properties": {
+        "height_cm": {
+          "description": "Height in centimeters.",
+          "maximum": 210,
+          "minimum": 150,
+          "title": "Height Cm",
+          "type": "integer"
+        },
+        "weight_kg": {
+          "description": "Weight in kilograms.",
+          "maximum": 160,
+          "minimum": 45,
+          "title": "Weight Kg",
+          "type": "integer"
+        },
+        "chest_type": {
+          "$ref": "#/$defs/ChestType",
+          "default": "medio"
+        },
+        "belly_type": {
+          "$ref": "#/$defs/BellyType",
+          "default": "medio"
+        },
+        "shoe_size": {
+          "anyOf": [
+            {
+              "maximum": 46,
+              "minimum": 37,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional Brazilian shoe size.",
+          "title": "Shoe Size"
+        }
+      },
+      "required": [
+        "height_cm",
+        "weight_kg"
+      ],
+      "title": "UserMeasurements",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "message": {
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Message",
+      "type": "string"
+    },
+    "session_id": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Session Id"
+    },
+    "history": {
+      "items": {
+        "$ref": "#/$defs/ChatTurn"
+      },
+      "maxItems": 20,
+      "title": "History",
+      "type": "array"
+    },
+    "measurements": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/UserMeasurements"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "preferences": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StylistPreferences"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "catalog": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/Product"
+          },
+          "maxItems": 500,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Optional white-label catalog. When omitted the engine uses its configured repository.",
+      "title": "Catalog"
+    },
+    "max_looks": {
+      "default": 3,
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Max Looks",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "message"
+  ],
+  "title": "StylistRecommendRequest",
+  "type": "object"
+}

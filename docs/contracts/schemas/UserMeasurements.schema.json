@@ -1,0 +1,68 @@
+{
+  "$defs": {
+    "BellyType": {
+      "enum": [
+        "atletico",
+        "medio",
+        "largo"
+      ],
+      "title": "BellyType",
+      "type": "string"
+    },
+    "ChestType": {
+      "enum": [
+        "atletico",
+        "medio",
+        "largo"
+      ],
+      "title": "ChestType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "height_cm": {
+      "description": "Height in centimeters.",
+      "maximum": 210,
+      "minimum": 150,
+      "title": "Height Cm",
+      "type": "integer"
+    },
+    "weight_kg": {
+      "description": "Weight in kilograms.",
+      "maximum": 160,
+      "minimum": 45,
+      "title": "Weight Kg",
+      "type": "integer"
+    },
+    "chest_type": {
+      "$ref": "#/$defs/ChestType",
+      "default": "medio"
+    },
+    "belly_type": {
+      "$ref": "#/$defs/BellyType",
+      "default": "medio"
+    },
+    "shoe_size": {
+      "anyOf": [
+        {
+          "maximum": 46,
+          "minimum": 37,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Optional Brazilian shoe size.",
+      "title": "Shoe Size"
+    }
+  },
+  "required": [
+    "height_cm",
+    "weight_kg"
+  ],
+  "title": "UserMeasurements",
+  "type": "object"
+}

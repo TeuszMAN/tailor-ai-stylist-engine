@@ -1,0 +1,71 @@
+{
+  "$defs": {
+    "Formality": {
+      "description": "Dress-code ladder, ordered from least to most formal.",
+      "enum": [
+        "smart_casual",
+        "business",
+        "formal",
+        "black_tie"
+      ],
+      "title": "Formality",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Input of `compose_complete_look`: one suit, shirt, tie and pair of shoes.",
+  "properties": {
+    "suit_id": {
+      "title": "Suit Id",
+      "type": "string"
+    },
+    "shirt_id": {
+      "title": "Shirt Id",
+      "type": "string"
+    },
+    "tie_id": {
+      "title": "Tie Id",
+      "type": "string"
+    },
+    "shoe_id": {
+      "title": "Shoe Id",
+      "type": "string"
+    },
+    "target_formality": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Formality"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "time_of_day": {
+      "anyOf": [
+        {
+          "enum": [
+            "dia",
+            "tarde",
+            "noite"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Time Of Day"
+    }
+  },
+  "required": [
+    "suit_id",
+    "shirt_id",
+    "tie_id",
+    "shoe_id"
+  ],
+  "title": "SuitCombination",
+  "type": "object"
+}
