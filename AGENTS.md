@@ -28,7 +28,8 @@ uvicorn app.main:app --reload --port 8000    # http://localhost:8000/docs
 | Catálogo em SQLite | `python -m scripts.seed_sqlite app/catalog/mock_catalog.json catalog.db` |
 | Docker | `docker build -t tailor-ai-engine . && docker run -p 8000:8000 tailor-ai-engine` |
 
-**Definition of Done:** `ruff check`, `ruff format --check`, `mypy app scripts` e `pytest` verdes.
+**Definition of Done:** `ruff check`, `ruff format --check`, `mypy app scripts` e `pytest` verdes — os mesmos gates
+rodam no CI (`.github/workflows/ci.yml`, Python 3.11–3.13 + smoke test Docker), que também precisa ficar verde.
 
 ## 2. Regras de arquitetura
 

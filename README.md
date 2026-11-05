@@ -1,5 +1,7 @@
 # Tailor AI Engine
 
+[![CI](https://github.com/TeuszMAN/tailor-ai-stylist-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/TeuszMAN/tailor-ai-stylist-engine/actions/workflows/ci.yml)
+
 **White-label agentic menswear stylist** — FastAPI · LangGraph · Pydantic v2 · Python 3.11+
 
 > 🇬🇧 English first · 🇧🇷 [Versão em português abaixo](#-português)
@@ -31,7 +33,8 @@ flowchart LR
 | 🏷️ **White-label** | Catalog from the request payload, a JSON file, SQLite or the bundled generic demo. No store names, phone numbers or secrets in this repo. |
 | 🔍 **Observability** | Every response carries `engine.graph_path`, per-tool traces (args, duration, ok) and `fallback_reason`. |
 | 📐 **Contracts & parity** | OpenAPI + JSON Schemas + Mermaid exported from code; golden **parity vectors** let other runtimes (e.g. a TypeScript fallback) reproduce the engine bit-for-bit. |
-| ✅ **Quality gates** | `mypy --strict`, `ruff`, 91 tests including a scripted chat model that exercises the real LLM path. |
+| 🔒 **Safe to expose** | Per-client rate limits (429 + `Retry-After`), request size limit (413), CORS restricted by default and a global LLM budget that degrades to rule-based instead of failing. |
+| ✅ **Quality gates** | GitHub Actions on Python 3.11–3.13: `mypy --strict`, `ruff`, 103 tests (incl. a scripted chat model for the LLM path) and a Docker smoke test. |
 
 ## Quickstart
 
@@ -63,6 +66,11 @@ docker run -p 8000:8000 --env-file .env tailor-ai-engine
 **LLM mode (optional)** — copy `.env.example` to `.env` and set `ANTHROPIC_API_KEY` (default model `claude-opus-5-5`)
 or `OPENAI_API_KEY`. `GET /health` reports `llm_mode`.
 
+**Deploying publicly** — set `CORS_ALLOW_ORIGINS` to your storefront URL (the default only allows
+`http://localhost:3000`), keep `RATE_LIMIT_ENABLED=true`, tune `LLM_MAX_REQUESTS_PER_MINUTE` to your budget and,
+behind a reverse proxy, set `FORWARDED_ALLOW_IPS` so limits see real client IPs. Limits are per process: with several
+replicas, enforce global limits at the gateway.
+
 ## API
 
 | Method | Route | Purpose |
@@ -89,13 +97,16 @@ Full contract: [`docs/contracts/openapi.json`](docs/contracts/openapi.json) · d
 app/
   schemas.py          Pydantic v2 contracts (source of the OpenAPI document)
   main.py             FastAPI routes, CORS, lifespan
+  security.py         HTTP guards: rate limiting (429) and request size limit (413)
+  ratelimit.py        framework-free sliding-window limiter (also the global LLM budget)
   config.py           12-factor settings (pydantic-settings)
   tools/              sizing.py · inventory.py · harmony.py · harmony_rules.json · vocabulary.py
   catalog/            repository.py (demo | file | sqlite | payload) · mock_catalog.json
   agent/              state.py · intake.py · planner.py · llm.py · prompts.py · formatter.py · graph.py
 scripts/              export_contracts.py · generate_parity_vectors.py · seed_sqlite.py
-tests/                91 tests (unit, graph, API, contract drift)
+tests/                103 tests (unit, graph, API, security, contract drift)
 docs/                 SDD.md · TASK_BOARD.md · contracts/ (OpenAPI, JSON Schemas, Mermaid, parity vectors)
+.github/workflows/    ci.yml (Python 3.11–3.13 quality gates + Docker smoke test)
 ```
 
 ## Development
@@ -137,7 +148,7 @@ validados pela etiqueta clássica, usando **somente peças em estoque no tamanho
 python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements-dev.txt
 uvicorn app.main:app --reload --port 8000      # docs em http://localhost:8000/docs
-pytest                                         # 91 testes
+pytest                                         # 103 testes
 ```
 
 Variáveis de ambiente: veja [`.env.example`](.env.example) e o SDD §9. Documentação completa de arquitetura,

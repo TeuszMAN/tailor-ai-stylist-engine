@@ -379,7 +379,8 @@ Contrato completo e versionado: [`docs/contracts/openapi.json`](contracts/openap
 | `POST` | `/api/v1/inventory/search` | `InventorySearchRequest` | `InventorySearchResult` |
 | `POST` | `/api/v1/looks/compose` | `ComposeLookRequest` | `OutfitRecommendation` (422 = combinação inválida) |
 
-Erros: `422` com `{"detail": "..."}` (regra de negócio) ou o formato de validação padrão do FastAPI.
+Erros: `422` com `{"detail": "..."}` (regra de negócio) ou o formato de validação padrão do FastAPI;
+`413` (corpo grande demais) e `429` (limite atingido, com `Retry-After`) com `{"detail": "..."}` — ver §9.1.
 Dinheiro sempre em **centavos inteiros** (`price_cents`, `total_price_cents`, `budget_max_cents`).
 
 ### 8.1 `POST /api/v1/fit-finder`
@@ -520,14 +521,34 @@ sequenceDiagram
 | `LLM_TIMEOUT_SECONDS` / `LLM_MAX_TOOL_ROUNDS` | `30` / `4` | |
 | `CATALOG_PATH` | — | Arquivo JSON com `Product[]` |
 | `CATALOG_DATABASE_URL` | — | `sqlite:///./catalog.db` (seed: `python -m scripts.seed_sqlite`) |
-| `CORS_ALLOW_ORIGINS` | `*` | Lista separada por vírgula (use a URL do storefront em produção) |
+| `CORS_ALLOW_ORIGINS` | `http://localhost:3000,http://127.0.0.1:3000` | Lista separada por vírgula; em produção, a URL do storefront |
+| `RATE_LIMIT_ENABLED` | `true` | Liga os limites por cliente (janela deslizante de 60 s, por IP) |
+| `RATE_LIMIT_PER_MINUTE` | `120` | Bucket padrão de `/api/*` (`/health` e `/docs` não são limitados) |
+| `STYLIST_RATE_LIMIT_PER_MINUTE` | `20` | Bucket próprio de `/api/v1/stylist/recommend` |
+| `MAX_REQUEST_BYTES` | `1000000` | Corpo maior ⇒ `413` (500 produtos ≈ 350 KB) |
+| `LLM_MAX_REQUESTS_PER_MINUTE` | `30` | Orçamento global de requisições com LLM; esgotado ⇒ `rule_based` com `fallback_reason=llm_budget_exhausted` |
+| `FORWARDED_ALLOW_IPS` | — | (uvicorn) IPs do proxy confiável, para o limite enxergar o IP real do cliente |
 | `LOG_LEVEL` | `INFO` | |
+
+### 9.1 Proteções HTTP (`app/security.py`, `app/ratelimit.py`)
+
+| Proteção | Resposta | Detalhe |
+|---|---|---|
+| Limite por cliente | `429` + `Retry-After`, `X-RateLimit-Limit/Remaining` | Janela deslizante por IP; o stylist tem bucket mais restrito |
+| Tamanho do corpo | `413` | Checagem do `Content-Length` antes do parse |
+| CORS | sem `Access-Control-Allow-Origin` | Restrito por padrão; é o middleware mais externo, então até 429/413 levam CORS e expõem `Retry-After` |
+| Orçamento de LLM | `200` em `rule_based` | Protege custo sem quebrar a experiência (mesmo contrato) |
+
+Os limites são **por processo**: com várias réplicas, aplique limites globais no gateway (ou Redis).
 
 ## 10. Qualidade, paridade e observabilidade
 
 * **Tipagem:** `mypy --strict` com plugin Pydantic em `app/` e `scripts/`; `ruff` (lint + format).
-* **Testes:** 91 testes (`pytest`), incluindo um `ScriptedChatModel` que exercita o caminho LLM real do grafo
-  (tool calls → executor → resposta) e os três gatilhos de fallback.
+* **Testes:** 103 testes (`pytest`), incluindo um `ScriptedChatModel` que exercita o caminho LLM real do grafo
+  (tool calls → executor → resposta), os gatilhos de fallback, o orçamento de LLM e as proteções HTTP.
+* **CI (`.github/workflows/ci.yml`):** ruff, mypy e pytest em Python 3.11, 3.12 e 3.13 + build da imagem Docker com
+  smoke test (`/health`, fit-finder, recommend e usuário não-root). O export de contratos é idêntico nas três versões
+  (a descrição do 422 é explícita, pois a frase padrão mudou no Python 3.13).
 * **Contract drift guard:** `tests/test_contracts.py` compara OpenAPI, JSON Schemas, diagrama LangGraph e vetores de paridade com o código.
 * **Parity vectors** (`docs/contracts/parity/`): Drop 6, harmonia (2.400 combinações), intake, busca e recomendações completas.
   Qualquer porte (ex.: o *Local Fallback Adapter* em TypeScript do storefront) deve reproduzi-los bit a bit.
@@ -550,7 +571,7 @@ sequenceDiagram
 
 | Risco | Mitigação |
 |---|---|
-| Abuso de custo de LLM em endpoint público | `LLM_PROVIDER=none` por padrão em demos; rate limiting no gateway; CORS restrito |
+| Abuso de custo de LLM em endpoint público | **Implementado:** limite por IP (429), bucket restrito no stylist, orçamento global de LLM (degrada para `rule_based`), limite de corpo (413) e CORS restrito por padrão. Para várias réplicas: limites no gateway/Redis |
 | Vocabulário PT-BR incompleto | Vocabulário centralizado em `vocabulary.py` + testes; LLM cobre variações quando habilitado |
 | Catálogos com novas famílias de cor | Pares ausentes valem `acceptable`; adicionar linhas em `harmony_rules.json` |
 
