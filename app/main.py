@@ -34,6 +34,7 @@ from app.schemas import (
     StylistRecommendResponse,
     UserMeasurements,
 )
+from app.security import HttpGuards, install_http_guards
 from app.tools import (
     LookCompositionError,
     ToolInputError,
@@ -61,12 +62,19 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     repository = build_repository(settings.catalog_path, settings.catalog_database_url)
     llm = build_llm(settings)
     app.state.repository = repository
-    app.state.engine = StylistEngine(repository, llm, settings.llm_max_tool_rounds)
+    app.state.engine = StylistEngine(
+        repository,
+        llm,
+        settings.llm_max_tool_rounds,
+        llm_requests_per_minute=settings.llm_max_requests_per_minute,
+    )
     logger.info(
-        "engine ready mode=%s provider=%s catalog=%s",
+        "engine ready mode=%s provider=%s catalog=%s rate_limit=%s cors=%s",
         app.state.engine.mode,
         llm.provider if llm else None,
         repository.source.value,
+        settings.rate_limit_enabled,
+        settings.cors_origins,
     )
     yield
 
@@ -79,14 +87,29 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         version=API_VERSION,
         description=DESCRIPTION,
         lifespan=lifespan,
-        responses={422: {"description": "Invalid payload"}},
+        responses={
+            413: {"model": ErrorResponse, "description": "Request body too large"},
+            422: {"description": "Invalid payload"},
+            429: {"model": ErrorResponse, "description": "Rate limit exceeded (see Retry-After)"},
+        },
     )
     app.state.settings = settings
+    # Guards first, CORS last: CORS stays the outermost middleware, so even 429/413 carry CORS headers.
+    install_http_guards(
+        app,
+        HttpGuards(
+            enabled=settings.rate_limit_enabled,
+            default_per_minute=settings.rate_limit_per_minute,
+            stylist_per_minute=settings.stylist_rate_limit_per_minute,
+            max_request_bytes=settings.max_request_bytes,
+        ),
+    )
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
         allow_methods=["GET", "POST", "OPTIONS"],
-        allow_headers=["*"],
+        allow_headers=["content-type", "x-request-id"],
+        expose_headers=["retry-after", "x-ratelimit-limit", "x-ratelimit-remaining"],
     )
     _register_routes(app)
     return app

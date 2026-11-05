@@ -6,7 +6,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import SecretStr
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 _PLACEHOLDER_PREFIXES = ("your", "changeme", "<", "sk-xxx", "sk-ant-xxx", "replace")
@@ -37,13 +37,19 @@ class Settings(BaseSettings):
     openai_model: str = "gpt-4.1-mini"
     llm_timeout_seconds: float = 30.0
     llm_max_tool_rounds: int = 4
+    # Global budget of LLM-backed requests per minute; beyond it requests run rule-based (no error).
+    llm_max_requests_per_minute: int = Field(default=30, ge=0)
 
     # Catalog repository (the request payload always wins).
     catalog_path: Path | None = None
     catalog_database_url: str | None = None
 
-    # HTTP
-    cors_allow_origins: str = "*"
+    # HTTP — restrictive by default: list your storefront origin(s) in production.
+    cors_allow_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+    rate_limit_enabled: bool = True
+    rate_limit_per_minute: int = Field(default=120, ge=1)
+    stylist_rate_limit_per_minute: int = Field(default=20, ge=1)
+    max_request_bytes: int = Field(default=1_000_000, ge=1_024)
 
     @property
     def cors_origins(self) -> list[str]:
