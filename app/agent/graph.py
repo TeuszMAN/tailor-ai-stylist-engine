@@ -47,6 +47,7 @@ from app.agent.tool_specs import (
     tool_specs,
 )
 from app.catalog import CatalogRepository, resolve_catalog
+from app.ratelimit import RateLimitRule, SlidingWindowRateLimiter
 from app.schemas import (
     EngineInfo,
     InventorySearchResult,
@@ -417,28 +418,54 @@ def build_graph(llm: LLMBundle | None, max_tool_rounds: int = 4) -> CompiledStat
     return graph.compile()
 
 
-class StylistEngine:
-    """Facade used by the API: resolves the catalog, runs the graph, stamps latency."""
+LLM_BUDGET_EXHAUSTED = "llm_budget_exhausted"
 
-    def __init__(self, repository: CatalogRepository, llm: LLMBundle | None = None, max_tool_rounds: int = 4) -> None:
+
+class StylistEngine:
+    """Facade used by the API: resolves the catalog, runs the graph, stamps latency.
+
+    `llm_requests_per_minute` is a global spend guard: when the budget is exhausted the request
+    runs on the deterministic planner (same response contract) with `fallback_reason` set.
+    """
+
+    def __init__(
+        self,
+        repository: CatalogRepository,
+        llm: LLMBundle | None = None,
+        max_tool_rounds: int = 4,
+        *,
+        llm_requests_per_minute: int | None = None,
+        limiter: SlidingWindowRateLimiter | None = None,
+    ) -> None:
         self.repository = repository
         self.llm = llm
         self.graph = build_graph(llm, max_tool_rounds)
+        self._llm_rule = RateLimitRule("llm", llm_requests_per_minute) if llm_requests_per_minute is not None else None
+        self._limiter = limiter or SlidingWindowRateLimiter()
 
     @property
     def mode(self) -> str:
         return "llm" if self.llm is not None else "rule_based"
 
+    def _llm_allowed(self) -> bool:
+        if self.llm is None:
+            return False
+        if self._llm_rule is None:
+            return True
+        return self._limiter.hit("llm:global", self._llm_rule).allowed
+
     def recommend(self, request: StylistRecommendRequest) -> StylistRecommendResponse:
         started = time.perf_counter()
         catalog, source = resolve_catalog(request.catalog, self.repository)
+        use_llm = self._llm_allowed()
         initial = AgentState(
             request=request,
             catalog=catalog,
             catalog_source=source,
-            mode="llm" if self.llm is not None else "rule_based",
+            mode="llm" if use_llm else "rule_based",
             provider=self.llm.provider if self.llm else None,
             model=self.llm.model_name if self.llm else None,
+            fallback_reason=LLM_BUDGET_EXHAUSTED if self.llm is not None and not use_llm else None,
         )
         raw = self.graph.invoke(initial, config={"recursion_limit": RECURSION_LIMIT})
         final = raw if isinstance(raw, AgentState) else AgentState.model_validate(raw)

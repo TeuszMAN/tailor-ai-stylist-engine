@@ -208,6 +208,34 @@ def test_llm_without_valid_looks_falls_back() -> None:
     assert "Recomendo um terno azul" not in response.reply
 
 
+def test_global_llm_budget_degrades_to_rule_based_without_calling_the_model() -> None:
+    model = ScriptedChatModel(responses=[AIMessage(content="Texto sem looks.")])
+    budgeted = StylistEngine(
+        JsonFileCatalogRepository(DEMO_CATALOG_PATH, CatalogSource.DEMO), bundle(model), llm_requests_per_minute=1
+    )
+    request = StylistRecommendRequest(message="Entrevista", measurements=MEASUREMENTS)
+    first = budgeted.recommend(request)
+    assert model.calls == 1
+    assert first.engine.fallback_reason == "llm_returned_no_valid_look"
+    second = budgeted.recommend(request)
+    assert model.calls == 1  # budget exhausted: the provider is not called again
+    assert second.engine.mode == "rule_based"
+    assert second.engine.fallback_reason == "llm_budget_exhausted"
+    assert second.engine.provider == "scripted"
+    assert second.recommended_looks
+
+
+def test_zero_llm_budget_never_calls_the_model() -> None:
+    model = ScriptedChatModel(responses=[AIMessage(content="nunca usado")])
+    disabled = StylistEngine(
+        JsonFileCatalogRepository(DEMO_CATALOG_PATH, CatalogSource.DEMO), bundle(model), llm_requests_per_minute=0
+    )
+    response = disabled.recommend(StylistRecommendRequest(message="Casamento à noite", measurements=MEASUREMENTS))
+    assert model.calls == 0
+    assert response.engine.fallback_reason == "llm_budget_exhausted"
+    assert len(response.recommended_looks) == 3
+
+
 def test_mermaid_export_contains_all_nodes() -> None:
     diagram = engine().mermaid()
     for node in (NODE_INTAKE, NODE_MEASUREMENT, NODE_MATCHER, NODE_TOOLS, NODE_OUTPUT):
