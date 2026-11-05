@@ -1,0 +1,1193 @@
+[
+  {
+    "id": "terno-azul-marinho-super-120",
+    "sku": "DEMO-SU-001",
+    "name": "Terno Azul Marinho Super 120's",
+    "category": "suit",
+    "description": "Lã fria Super 120's com caimento impecável, lapela entalhada e forro em viscose. O terno mais versátil do guarda-roupa masculino: do escritório ao casamento.",
+    "price_cents": 289000,
+    "color": "Azul Marinho",
+    "color_family": "navy",
+    "pattern": "solid",
+    "fabric": "Lã fria Super 120's",
+    "style": null,
+    "fit_options": [
+      "slim",
+      "regular"
+    ],
+    "formality_tags": [
+      "business",
+      "formal"
+    ],
+    "occasion_tags": [
+      "casamento",
+      "trabalho",
+      "entrevista",
+      "formatura",
+      "versatil"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "46",
+        "stock": 2
+      },
+      {
+        "size": "48",
+        "stock": 4
+      },
+      {
+        "size": "50",
+        "stock": 6
+      },
+      {
+        "size": "52",
+        "stock": 6
+      },
+      {
+        "size": "54",
+        "stock": 4
+      },
+      {
+        "size": "56",
+        "stock": 3
+      },
+      {
+        "size": "58",
+        "stock": 1
+      },
+      {
+        "size": "60",
+        "stock": 0
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80",
+    "highlight": "Mais versátil"
+  },
+  {
+    "id": "terno-cinza-chumbo",
+    "sku": "DEMO-SU-002",
+    "name": "Terno Cinza Chumbo",
+    "category": "suit",
+    "description": "Lã Super 110's com toque de elastano para conforto o dia inteiro. Sobriedade executiva que também brilha em cerimônias noturnas.",
+    "price_cents": 269000,
+    "color": "Cinza Chumbo",
+    "color_family": "charcoal",
+    "pattern": "solid",
+    "fabric": "Lã Super 110's com elastano",
+    "style": null,
+    "fit_options": [
+      "slim",
+      "regular"
+    ],
+    "formality_tags": [
+      "business",
+      "formal"
+    ],
+    "occasion_tags": [
+      "trabalho",
+      "entrevista",
+      "casamento",
+      "formatura",
+      "versatil"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "46",
+        "stock": 1
+      },
+      {
+        "size": "48",
+        "stock": 3
+      },
+      {
+        "size": "50",
+        "stock": 5
+      },
+      {
+        "size": "52",
+        "stock": 0
+      },
+      {
+        "size": "54",
+        "stock": 3
+      },
+      {
+        "size": "56",
+        "stock": 2
+      },
+      {
+        "size": "58",
+        "stock": 1
+      },
+      {
+        "size": "60",
+        "stock": 1
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1598808503746-f34c53b9323e?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "terno-bege-areia-linho",
+    "sku": "DEMO-SU-003",
+    "name": "Terno Bege Areia em Linho",
+    "category": "suit",
+    "description": "Linho com algodão, construção desestruturada e respirável. A escolha certa para casamentos diurnos, cerimônias ao ar livre e o verão brasileiro.",
+    "price_cents": 249000,
+    "color": "Bege Areia",
+    "color_family": "sand",
+    "pattern": "textured",
+    "fabric": "Linho e algodão",
+    "style": null,
+    "fit_options": [
+      "regular"
+    ],
+    "formality_tags": [
+      "smart_casual",
+      "formal"
+    ],
+    "occasion_tags": [
+      "casamento",
+      "evento_diurno"
+    ],
+    "seasons": [
+      "summer"
+    ],
+    "sizes": [
+      {
+        "size": "46",
+        "stock": 0
+      },
+      {
+        "size": "48",
+        "stock": 2
+      },
+      {
+        "size": "50",
+        "stock": 3
+      },
+      {
+        "size": "52",
+        "stock": 3
+      },
+      {
+        "size": "54",
+        "stock": 2
+      },
+      {
+        "size": "56",
+        "stock": 1
+      },
+      {
+        "size": "58",
+        "stock": 0
+      },
+      {
+        "size": "60",
+        "stock": 0
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=900&q=80",
+    "highlight": "Ideal para o verão"
+  },
+  {
+    "id": "terno-preto-cerimonia",
+    "sku": "DEMO-SU-004",
+    "name": "Terno Preto Cerimônia",
+    "category": "suit",
+    "description": "Lã Super 130's de toque acetinado e lapela de bico. Elegância noturna para galas, formaturas e casamentos à noite.",
+    "price_cents": 349000,
+    "color": "Preto",
+    "color_family": "black",
+    "pattern": "solid",
+    "fabric": "Lã Super 130's",
+    "style": null,
+    "fit_options": [
+      "slim",
+      "regular"
+    ],
+    "formality_tags": [
+      "formal",
+      "black_tie"
+    ],
+    "occasion_tags": [
+      "gala",
+      "casamento",
+      "formatura"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "46",
+        "stock": 1
+      },
+      {
+        "size": "48",
+        "stock": 2
+      },
+      {
+        "size": "50",
+        "stock": 3
+      },
+      {
+        "size": "52",
+        "stock": 4
+      },
+      {
+        "size": "54",
+        "stock": 3
+      },
+      {
+        "size": "56",
+        "stock": 2
+      },
+      {
+        "size": "58",
+        "stock": 1
+      },
+      {
+        "size": "60",
+        "stock": 1
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1594938384824-022767a58e11?auto=format&fit=crop&w=900&q=80",
+    "highlight": "Black tie"
+  },
+  {
+    "id": "terno-azul-principe-de-gales",
+    "sku": "DEMO-SU-005",
+    "name": "Terno Três Peças Príncipe de Gales Azul",
+    "category": "suit",
+    "description": "Três peças em xadrez Príncipe de Gales azul com colete. Personalidade britânica para reuniões, almoços de negócios e eventos diurnos.",
+    "price_cents": 309000,
+    "color": "Azul Príncipe de Gales",
+    "color_family": "navy",
+    "pattern": "checked",
+    "fabric": "Lã penteada",
+    "style": "três peças",
+    "fit_options": [
+      "slim"
+    ],
+    "formality_tags": [
+      "smart_casual",
+      "business"
+    ],
+    "occasion_tags": [
+      "trabalho",
+      "evento_diurno",
+      "versatil"
+    ],
+    "seasons": [
+      "winter"
+    ],
+    "sizes": [
+      {
+        "size": "46",
+        "stock": 0
+      },
+      {
+        "size": "48",
+        "stock": 1
+      },
+      {
+        "size": "50",
+        "stock": 2
+      },
+      {
+        "size": "52",
+        "stock": 2
+      },
+      {
+        "size": "54",
+        "stock": 1
+      },
+      {
+        "size": "56",
+        "stock": 0
+      },
+      {
+        "size": "58",
+        "stock": 0
+      },
+      {
+        "size": "60",
+        "stock": 0
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "terno-cinza-claro-glen",
+    "sku": "DEMO-SU-006",
+    "name": "Terno Cinza Claro Glen Check",
+    "category": "suit",
+    "description": "Cinza claro com padronagem Glen discreta. Leve e contemporâneo para o dia a dia corporativo e eventos esporte fino.",
+    "price_cents": 279000,
+    "color": "Cinza Claro",
+    "color_family": "grey",
+    "pattern": "checked",
+    "fabric": "Lã e seda",
+    "style": null,
+    "fit_options": [
+      "slim",
+      "regular"
+    ],
+    "formality_tags": [
+      "smart_casual",
+      "business"
+    ],
+    "occasion_tags": [
+      "trabalho",
+      "evento_diurno",
+      "versatil"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "46",
+        "stock": 1
+      },
+      {
+        "size": "48",
+        "stock": 2
+      },
+      {
+        "size": "50",
+        "stock": 2
+      },
+      {
+        "size": "52",
+        "stock": 1
+      },
+      {
+        "size": "54",
+        "stock": 2
+      },
+      {
+        "size": "56",
+        "stock": 1
+      },
+      {
+        "size": "58",
+        "stock": 0
+      },
+      {
+        "size": "60",
+        "stock": 0
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1621335829175-95f437384d7c?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "camisa-branca-algodao-egipcio",
+    "sku": "DEMO-SH-001",
+    "name": "Camisa Branca Algodão Egípcio",
+    "category": "shirt",
+    "description": "Algodão egípcio fio 100, colarinho italiano e punho simples. A base de qualquer look de alfaiataria, do expediente ao black tie.",
+    "price_cents": 42900,
+    "color": "Branca",
+    "color_family": "white",
+    "pattern": "solid",
+    "fabric": "Algodão egípcio fio 100",
+    "style": "colarinho italiano",
+    "fit_options": [
+      "slim",
+      "regular"
+    ],
+    "formality_tags": [
+      "smart_casual",
+      "business",
+      "formal",
+      "black_tie"
+    ],
+    "occasion_tags": [
+      "casamento",
+      "trabalho",
+      "entrevista",
+      "formatura",
+      "gala",
+      "versatil"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "1",
+        "stock": 3
+      },
+      {
+        "size": "2",
+        "stock": 6
+      },
+      {
+        "size": "3",
+        "stock": 8
+      },
+      {
+        "size": "4",
+        "stock": 8
+      },
+      {
+        "size": "5",
+        "stock": 5
+      },
+      {
+        "size": "6",
+        "stock": 3
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=900&q=80",
+    "highlight": "Essencial"
+  },
+  {
+    "id": "camisa-azul-celeste-tricoline",
+    "sku": "DEMO-SH-002",
+    "name": "Camisa Azul Celeste Tricoline",
+    "category": "shirt",
+    "description": "Tricoline de algodão fio 80 em azul celeste, colarinho francês. Ilumina o rosto e combina com ternos marinho, cinza e bege.",
+    "price_cents": 38900,
+    "color": "Azul Celeste",
+    "color_family": "light_blue",
+    "pattern": "solid",
+    "fabric": "Tricoline fio 80",
+    "style": "colarinho francês",
+    "fit_options": [
+      "slim",
+      "regular"
+    ],
+    "formality_tags": [
+      "smart_casual",
+      "business",
+      "formal"
+    ],
+    "occasion_tags": [
+      "trabalho",
+      "entrevista",
+      "casamento",
+      "evento_diurno",
+      "versatil"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "1",
+        "stock": 2
+      },
+      {
+        "size": "2",
+        "stock": 4
+      },
+      {
+        "size": "3",
+        "stock": 6
+      },
+      {
+        "size": "4",
+        "stock": 6
+      },
+      {
+        "size": "5",
+        "stock": 4
+      },
+      {
+        "size": "6",
+        "stock": 0
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "camisa-listrada-azul-branca",
+    "sku": "DEMO-SH-003",
+    "name": "Camisa Listrada Azul e Branca",
+    "category": "shirt",
+    "description": "Listras finas azul e branco em algodão fio 80. Clássico de banqueiro para o dia a dia executivo.",
+    "price_cents": 37900,
+    "color": "Listrada Azul",
+    "color_family": "blue_stripe",
+    "pattern": "striped",
+    "fabric": "Algodão fio 80",
+    "style": "colarinho francês",
+    "fit_options": [
+      "slim",
+      "regular"
+    ],
+    "formality_tags": [
+      "smart_casual",
+      "business"
+    ],
+    "occasion_tags": [
+      "trabalho",
+      "versatil"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "1",
+        "stock": 0
+      },
+      {
+        "size": "2",
+        "stock": 3
+      },
+      {
+        "size": "3",
+        "stock": 4
+      },
+      {
+        "size": "4",
+        "stock": 4
+      },
+      {
+        "size": "5",
+        "stock": 3
+      },
+      {
+        "size": "6",
+        "stock": 2
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1602810316693-3667c854239a?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "camisa-rosa-antigo-fil-a-fil",
+    "sku": "DEMO-SH-004",
+    "name": "Camisa Rosa Antigo Fil-à-Fil",
+    "category": "shirt",
+    "description": "Fil-à-fil em rosa antigo com textura sutil. Sofisticação com um toque de cor para casamentos diurnos e reuniões.",
+    "price_cents": 39900,
+    "color": "Rosa Antigo",
+    "color_family": "pink",
+    "pattern": "solid",
+    "fabric": "Fil-à-fil de algodão",
+    "style": "colarinho italiano",
+    "fit_options": [
+      "slim"
+    ],
+    "formality_tags": [
+      "smart_casual",
+      "business",
+      "formal"
+    ],
+    "occasion_tags": [
+      "casamento",
+      "evento_diurno",
+      "trabalho"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "1",
+        "stock": 1
+      },
+      {
+        "size": "2",
+        "stock": 2
+      },
+      {
+        "size": "3",
+        "stock": 3
+      },
+      {
+        "size": "4",
+        "stock": 2
+      },
+      {
+        "size": "5",
+        "stock": 1
+      },
+      {
+        "size": "6",
+        "stock": 0
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1543132220-3ec99c6094dc?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "calca-alfaiataria-cinza-chumbo",
+    "sku": "DEMO-PA-001",
+    "name": "Calça de Alfaiataria Cinza Chumbo",
+    "category": "pants",
+    "description": "Lã fria com elastano, pences frontais e barra italiana. Alterna com o paletó marinho e multiplica as combinações da semana.",
+    "price_cents": 59900,
+    "color": "Cinza Chumbo",
+    "color_family": "charcoal",
+    "pattern": "solid",
+    "fabric": "Lã fria com elastano",
+    "style": null,
+    "fit_options": [
+      "slim",
+      "regular"
+    ],
+    "formality_tags": [
+      "business",
+      "formal"
+    ],
+    "occasion_tags": [
+      "trabalho",
+      "versatil"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "38",
+        "stock": 1
+      },
+      {
+        "size": "40",
+        "stock": 2
+      },
+      {
+        "size": "42",
+        "stock": 4
+      },
+      {
+        "size": "44",
+        "stock": 5
+      },
+      {
+        "size": "46",
+        "stock": 5
+      },
+      {
+        "size": "48",
+        "stock": 4
+      },
+      {
+        "size": "50",
+        "stock": 3
+      },
+      {
+        "size": "52",
+        "stock": 2
+      },
+      {
+        "size": "54",
+        "stock": 0
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "calca-alfaiataria-caqui",
+    "sku": "DEMO-PA-002",
+    "name": "Calça de Alfaiataria Cáqui",
+    "category": "pants",
+    "description": "Gabardine de algodão em cáqui com cintura ajustável. Perfeita com blazer azul em ocasiões esporte fino.",
+    "price_cents": 49900,
+    "color": "Cáqui",
+    "color_family": "khaki",
+    "pattern": "solid",
+    "fabric": "Gabardine de algodão",
+    "style": null,
+    "fit_options": [
+      "slim",
+      "regular"
+    ],
+    "formality_tags": [
+      "smart_casual",
+      "business"
+    ],
+    "occasion_tags": [
+      "trabalho",
+      "evento_diurno",
+      "versatil"
+    ],
+    "seasons": [
+      "summer"
+    ],
+    "sizes": [
+      {
+        "size": "38",
+        "stock": 0
+      },
+      {
+        "size": "40",
+        "stock": 2
+      },
+      {
+        "size": "42",
+        "stock": 3
+      },
+      {
+        "size": "44",
+        "stock": 4
+      },
+      {
+        "size": "46",
+        "stock": 4
+      },
+      {
+        "size": "48",
+        "stock": 3
+      },
+      {
+        "size": "50",
+        "stock": 2
+      },
+      {
+        "size": "52",
+        "stock": 1
+      },
+      {
+        "size": "54",
+        "stock": 0
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "gravata-seda-bordo",
+    "sku": "DEMO-TI-001",
+    "name": "Gravata de Seda Bordô",
+    "category": "tie",
+    "description": "Seda pura italiana em bordô profundo, 7 cm de largura. A gravata que mais valoriza ternos marinho e cinza.",
+    "price_cents": 21900,
+    "color": "Bordô",
+    "color_family": "burgundy",
+    "pattern": "solid",
+    "fabric": "Seda pura",
+    "style": null,
+    "fit_options": [],
+    "formality_tags": [
+      "smart_casual",
+      "business",
+      "formal"
+    ],
+    "occasion_tags": [
+      "casamento",
+      "trabalho",
+      "entrevista",
+      "formatura",
+      "versatil"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "U",
+        "stock": 12
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=80",
+    "highlight": "Mais vendida"
+  },
+  {
+    "id": "gravata-seda-marinho",
+    "sku": "DEMO-TI-002",
+    "name": "Gravata de Seda Azul Marinho",
+    "category": "tie",
+    "description": "Seda texturizada azul marinho. Sóbria e confiável para entrevistas, reuniões e ternos cinza ou bege.",
+    "price_cents": 19900,
+    "color": "Azul Marinho",
+    "color_family": "navy",
+    "pattern": "textured",
+    "fabric": "Seda texturizada",
+    "style": null,
+    "fit_options": [],
+    "formality_tags": [
+      "smart_casual",
+      "business",
+      "formal"
+    ],
+    "occasion_tags": [
+      "trabalho",
+      "entrevista",
+      "casamento",
+      "versatil"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "U",
+        "stock": 10
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1594938291221-94f18cbb5660?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "gravata-seda-prata",
+    "sku": "DEMO-TI-003",
+    "name": "Gravata de Seda Prata",
+    "category": "tie",
+    "description": "Cetim de seda prata com brilho discreto. Clássica de cerimônia para casamentos, formaturas e galas.",
+    "price_cents": 23900,
+    "color": "Prata",
+    "color_family": "silver",
+    "pattern": "solid",
+    "fabric": "Cetim de seda",
+    "style": null,
+    "fit_options": [],
+    "formality_tags": [
+      "formal",
+      "black_tie"
+    ],
+    "occasion_tags": [
+      "casamento",
+      "gala",
+      "formatura"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "U",
+        "stock": 8
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1592878940526-0214b0f374f6?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "gravata-seda-verde-esmeralda",
+    "sku": "DEMO-TI-004",
+    "name": "Gravata de Seda Verde Esmeralda",
+    "category": "tie",
+    "description": "Seda verde esmeralda com acabamento acetinado. Ponto de cor elegante para padrinhos e eventos diurnos.",
+    "price_cents": 22900,
+    "color": "Verde Esmeralda",
+    "color_family": "emerald",
+    "pattern": "solid",
+    "fabric": "Seda pura",
+    "style": null,
+    "fit_options": [],
+    "formality_tags": [
+      "smart_casual",
+      "business",
+      "formal"
+    ],
+    "occasion_tags": [
+      "casamento",
+      "evento_diurno",
+      "formatura"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "U",
+        "stock": 6
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1593032465175-481ac7f401a0?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "gravata-lavanda-paisley",
+    "sku": "DEMO-TI-005",
+    "name": "Gravata Lavanda Paisley",
+    "category": "tie",
+    "description": "Seda estampada em paisley lavanda. Romântica e leve para casamentos de dia e brunches.",
+    "price_cents": 20900,
+    "color": "Lavanda",
+    "color_family": "lavender",
+    "pattern": "paisley",
+    "fabric": "Seda estampada",
+    "style": null,
+    "fit_options": [],
+    "formality_tags": [
+      "smart_casual",
+      "business",
+      "formal"
+    ],
+    "occasion_tags": [
+      "casamento",
+      "evento_diurno"
+    ],
+    "seasons": [
+      "summer"
+    ],
+    "sizes": [
+      {
+        "size": "U",
+        "stock": 5
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1589756823695-278bc923f962?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "sapato-oxford-preto",
+    "sku": "DEMO-SO-001",
+    "name": "Sapato Oxford Preto Cap-Toe",
+    "category": "shoes",
+    "description": "Couro de bezerro com biqueira cap-toe e sola de couro. O sapato mais formal da alfaiataria, obrigatório no black tie.",
+    "price_cents": 89900,
+    "color": "Preto",
+    "color_family": "black",
+    "pattern": "solid",
+    "fabric": "Couro de bezerro",
+    "style": "oxford",
+    "fit_options": [],
+    "formality_tags": [
+      "business",
+      "formal",
+      "black_tie"
+    ],
+    "occasion_tags": [
+      "casamento",
+      "trabalho",
+      "entrevista",
+      "formatura",
+      "gala",
+      "versatil"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "38",
+        "stock": 1
+      },
+      {
+        "size": "39",
+        "stock": 3
+      },
+      {
+        "size": "40",
+        "stock": 4
+      },
+      {
+        "size": "41",
+        "stock": 5
+      },
+      {
+        "size": "42",
+        "stock": 5
+      },
+      {
+        "size": "43",
+        "stock": 4
+      },
+      {
+        "size": "44",
+        "stock": 2
+      },
+      {
+        "size": "45",
+        "stock": 1
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?auto=format&fit=crop&w=900&q=80",
+    "highlight": "Essencial"
+  },
+  {
+    "id": "sapato-brogue-cafe",
+    "sku": "DEMO-SO-002",
+    "name": "Sapato Brogue Café",
+    "category": "shoes",
+    "description": "Brogue em couro café com perfurações artesanais. Charme britânico para o dia a dia e eventos esporte fino.",
+    "price_cents": 79900,
+    "color": "Café",
+    "color_family": "brown",
+    "pattern": "solid",
+    "fabric": "Couro curtido",
+    "style": "brogue",
+    "fit_options": [],
+    "formality_tags": [
+      "smart_casual",
+      "business"
+    ],
+    "occasion_tags": [
+      "trabalho",
+      "evento_diurno",
+      "entrevista",
+      "versatil"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "38",
+        "stock": 0
+      },
+      {
+        "size": "39",
+        "stock": 2
+      },
+      {
+        "size": "40",
+        "stock": 3
+      },
+      {
+        "size": "41",
+        "stock": 4
+      },
+      {
+        "size": "42",
+        "stock": 4
+      },
+      {
+        "size": "43",
+        "stock": 3
+      },
+      {
+        "size": "44",
+        "stock": 2
+      },
+      {
+        "size": "45",
+        "stock": 1
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "sapato-monk-strap-cafe",
+    "sku": "DEMO-SO-003",
+    "name": "Sapato Monk Strap Café",
+    "category": "shoes",
+    "description": "Monk strap de fivela dupla em couro café escuro. Formal o bastante para cerimônias diurnas, com personalidade.",
+    "price_cents": 84900,
+    "color": "Café Escuro",
+    "color_family": "brown",
+    "pattern": "solid",
+    "fabric": "Couro de bezerro",
+    "style": "monk strap",
+    "fit_options": [],
+    "formality_tags": [
+      "business",
+      "formal"
+    ],
+    "occasion_tags": [
+      "casamento",
+      "trabalho",
+      "formatura"
+    ],
+    "seasons": [
+      "all_year"
+    ],
+    "sizes": [
+      {
+        "size": "38",
+        "stock": 1
+      },
+      {
+        "size": "39",
+        "stock": 2
+      },
+      {
+        "size": "40",
+        "stock": 3
+      },
+      {
+        "size": "41",
+        "stock": 3
+      },
+      {
+        "size": "42",
+        "stock": 3
+      },
+      {
+        "size": "43",
+        "stock": 2
+      },
+      {
+        "size": "44",
+        "stock": 0
+      },
+      {
+        "size": "45",
+        "stock": 0
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1533867617858-e7b97e060509?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  },
+  {
+    "id": "mocassim-horsebit-conhaque",
+    "sku": "DEMO-SO-004",
+    "name": "Mocassim Horsebit Conhaque",
+    "category": "shoes",
+    "description": "Mocassim com detalhe horsebit em couro conhaque. Elegância descontraída para looks esporte fino e verão.",
+    "price_cents": 69900,
+    "color": "Conhaque",
+    "color_family": "cognac",
+    "pattern": "solid",
+    "fabric": "Couro envernizado à mão",
+    "style": "loafer",
+    "fit_options": [],
+    "formality_tags": [
+      "smart_casual",
+      "business"
+    ],
+    "occasion_tags": [
+      "evento_diurno",
+      "trabalho"
+    ],
+    "seasons": [
+      "summer"
+    ],
+    "sizes": [
+      {
+        "size": "38",
+        "stock": 1
+      },
+      {
+        "size": "39",
+        "stock": 2
+      },
+      {
+        "size": "40",
+        "stock": 3
+      },
+      {
+        "size": "41",
+        "stock": 3
+      },
+      {
+        "size": "42",
+        "stock": 2
+      },
+      {
+        "size": "43",
+        "stock": 2
+      },
+      {
+        "size": "44",
+        "stock": 1
+      },
+      {
+        "size": "45",
+        "stock": 0
+      }
+    ],
+    "image_url": "https://images.unsplash.com/photo-1616406432452-07bc5938759d?auto=format&fit=crop&w=900&q=80",
+    "highlight": null
+  }
+]
