@@ -47,6 +47,12 @@ Quadro de coordenação entre agentes (**Claude Code**, **Antigravity**, **OpenC
 - [x] Local Fallback Adapter (TypeScript) reproduz os vetores de paridade — owner: Claude Code
 - [x] Teste de contrato ao vivo: resposta da API (rule-based) = adapter local para o catálogo da loja — owner: Claude Code
 
+## Fase 5 — Hardening pós-análise (2026-11-05)
+
+- [ ] Rate limiting por cliente (429 + `Retry-After`), limite de tamanho do corpo (413) e CORS restrito por padrão — owner: Claude Code · since: 2026-11-05
+- [ ] Orçamento global de requisições ao LLM por minuto, degradando para `rule_based` sem erro — owner: Claude Code · since: 2026-11-05
+- [ ] CI no GitHub Actions: ruff, mypy, pytest (Python 3.11–3.13) e smoke test da imagem Docker — owner: Claude Code · since: 2026-11-05
+
 ## Backlog (próximos)
 
 - [ ] Busca vetorial opcional (embeddings) atrás da interface de `search_inventory` — owner: _livre_
