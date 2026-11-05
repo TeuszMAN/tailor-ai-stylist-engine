@@ -176,7 +176,7 @@ def _register_routes(app: FastAPI) -> None:
     @app.post(
         "/api/v1/looks/compose",
         response_model=OutfitRecommendation,
-        responses={422: {"model": ErrorResponse}},
+        responses={422: {"model": ErrorResponse, "description": "Invalid look combination"}},
         tags=["stylist"],
     )
     def compose_look(payload: ComposeLookRequest, repository: RepositoryDep) -> OutfitRecommendation:

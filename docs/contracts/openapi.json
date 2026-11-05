@@ -285,7 +285,7 @@
             }
           },
           "422": {
-            "description": "Unprocessable Content",
+            "description": "Invalid look combination",
             "content": {
               "application/json": {
                 "schema": {
